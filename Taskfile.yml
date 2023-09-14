@@ -1,0 +1,19 @@
+version: "3"
+
+tasks:
+  up:
+    cmds:
+      - docker compose up -d
+    silent: true
+  down:
+    cmds:
+      - docker compose down
+    silent: true
+  cli:
+    cmds:
+      - docker compose exec redis redis-cli
+    silent: true
+  web:
+    cmds:
+      - open http://insight.localhost
+    silent: true

@@ -1,0 +1,37 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - ./data:/data
+      # - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    # command: "redis-server /usr/local/etc/redis/redis.conf"
+  insight:
+    image: redislabs/redisinsight:latest
+    container_name: insight
+    volumes:
+      - redisinsight:/db
+    ports:
+      - 8001:8001
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.redisinsight.rule=Host(`insight.localhost`)"
+      - "traefik.http.routers.redisinsight.entrypoints=web"
+
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+volumes:
+  redisinsight:
