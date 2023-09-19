@@ -13,6 +13,10 @@ tasks:
     cmds:
       - docker compose exec redis redis-cli
     silent: true
+  sh:
+    cmds:
+      - docker compose exec redis bash
+    silent: true
   web:
     cmds:
       - open http://insight.localhost

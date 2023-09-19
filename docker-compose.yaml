@@ -1,11 +1,13 @@
 services:
   redis:
-    image: redis:latest
+    image: redis/redis-stack:6.2.6-v7@sha256:890ab71fecefb603c02c1c0a9c6ab0a49f1bd6d73c530836ee3cc6513b58a9d1
+    # image: redis/redis-stack-server:latest
     container_name: redis
     volumes:
       - ./data:/data
-      # - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
-    # command: "redis-server /usr/local/etc/redis/redis.conf"
+    ports:
+      - 6379:6379
+
   insight:
     image: redislabs/redisinsight:latest
     container_name: insight
